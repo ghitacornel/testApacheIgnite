@@ -12,9 +12,9 @@ public class TestSingleNode {
 
     @BeforeClass
     public static void setUpAll() {
-        IgniteConfiguration igniteConfiguration1 = new IgniteConfiguration();
-        igniteConfiguration1.setIgniteInstanceName("1");
-        node = new ServerNode(igniteConfiguration1);
+        IgniteConfiguration configuration = new IgniteConfiguration();
+        configuration.setIgniteInstanceName("1");
+        node = new ServerNode(configuration);
         node.startNode();
     }
 
