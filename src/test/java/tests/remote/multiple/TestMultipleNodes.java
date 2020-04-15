@@ -46,14 +46,6 @@ public class TestMultipleNodes {
         Ignition.stopAll(false);
     }
 
-    @Before
-    public void setUp() {
-        IgniteCache<String, Integer> cache = ignite.getOrCreateCache("myCache");
-        cache.put("one", 1);
-        cache.put("two", 2);
-        cache.put("three", 3);
-    }
-
     @Test
     public void testMultipleReads() {
 
