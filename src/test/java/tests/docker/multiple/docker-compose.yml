@@ -1,0 +1,34 @@
+version: '3.6'
+
+services:
+      
+  node1:
+    image: apacheignite/ignite
+    container_name: node1
+    networks:
+      - ai_network
+    ports:
+      - 47100:47100
+      - 47500:47500
+    
+  node2:
+    image: apacheignite/ignite
+    container_name: node2
+    networks:
+      - ai_network
+    ports:
+      - 47100:47100
+      - 47501:47500
+
+  node3:
+    image: apacheignite/ignite
+    container_name: node3
+    networks:
+      - ai_network
+    ports:
+      - 47102:47100
+      - 47502:47500
+      
+networks:
+  ai_network:
+    driver: bridge
