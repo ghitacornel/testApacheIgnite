@@ -13,6 +13,8 @@ import java.util.List;
 
 public class TestMultipleNodes {
 
+    private static final String CACHE_NAME = "myCache";
+
     static Ignite ignite;
 
     @BeforeClass
@@ -67,36 +69,25 @@ public class TestMultipleNodes {
             cache.put("three", 3);
         }
 
-        // verify cache
-        {
-            IgniteCache<String, Integer> cache = ignite.cache("myCache");
-            Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
-            Assert.assertEquals(Integer.valueOf(2), cache.get("two"));
-            Assert.assertEquals(Integer.valueOf(3), cache.get("three"));
-        }
+        verifyCache();
 
         System.out.println("start local.node 2");
 
-        // verify cache
-        {
-            IgniteCache<String, Integer> cache = ignite.cache("myCache");
-            Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
-            Assert.assertEquals(Integer.valueOf(2), cache.get("two"));
-            Assert.assertEquals(Integer.valueOf(3), cache.get("three"));
-        }
+        verifyCache();
 
         System.out.println("stop local.node 1");
 
-        // verify cache
-        {
-            IgniteCache<String, Integer> cache = ignite.cache("myCache");
-            Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
-            Assert.assertEquals(Integer.valueOf(2), cache.get("two"));
-            Assert.assertEquals(Integer.valueOf(3), cache.get("three"));
-        }
+        verifyCache();
 
         System.out.println("done");
 
+    }
+
+    private void verifyCache() {
+        IgniteCache<String, Integer> cache = ignite.cache(CACHE_NAME);
+        Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
+        Assert.assertEquals(Integer.valueOf(2), cache.get("two"));
+        Assert.assertEquals(Integer.valueOf(3), cache.get("three"));
     }
 
 }
