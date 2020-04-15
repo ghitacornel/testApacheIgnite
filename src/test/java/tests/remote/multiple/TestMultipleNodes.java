@@ -63,7 +63,7 @@ public class TestMultipleNodes {
 
         // write cache
         {
-            IgniteCache<String, Integer> cache = ignite.getOrCreateCache("myCache");
+            IgniteCache<String, Integer> cache = ignite.getOrCreateCache(CACHE_NAME);
             cache.put("one", 1);
             cache.put("two", 2);
             cache.put("three", 3);
