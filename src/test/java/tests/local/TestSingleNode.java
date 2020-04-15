@@ -13,6 +13,8 @@ import org.junit.Test;
 
 public class TestSingleNode {
 
+    private static final String CACHE_NAME = "myCache";
+
     private static ServerNode node;
     private static IgniteClient client;
 
@@ -42,19 +44,21 @@ public class TestSingleNode {
     @Test
     public void testSingleWriteRead() {
 
-        ClientCache<Object, Object> cache = client.getOrCreateCache("myCache");
-
         // write
         {
+            ClientCache<Object, Object> cache = client.getOrCreateCache(CACHE_NAME);
             cache.put("one", 1);
             cache.put("two", 2);
             cache.put("three", 3);
         }
 
         // read and test
-        Assert.assertEquals(1, cache.get("one"));
-        Assert.assertEquals(2, cache.get("two"));
-        Assert.assertEquals(3, cache.get("three"));
+        {
+            ClientCache<Object, Object> cache = client.getOrCreateCache(CACHE_NAME);
+            Assert.assertEquals(1, cache.get("one"));
+            Assert.assertEquals(2, cache.get("two"));
+            Assert.assertEquals(3, cache.get("three"));
+        }
 
     }
 
