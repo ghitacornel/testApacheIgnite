@@ -58,6 +58,16 @@ public class TestMultipleNodes {
         // place breakpoints
 
         System.out.println("verify with local.node 1 only");
+
+        // write cache
+        {
+            IgniteCache<String, Integer> cache = ignite.getOrCreateCache("myCache");
+            cache.put("one", 1);
+            cache.put("two", 2);
+            cache.put("three", 3);
+        }
+
+        // verify cache
         {
             IgniteCache<String, Integer> cache = ignite.cache("myCache");
             Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
@@ -66,6 +76,8 @@ public class TestMultipleNodes {
         }
 
         System.out.println("start local.node 2");
+
+        // verify cache
         {
             IgniteCache<String, Integer> cache = ignite.cache("myCache");
             Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
@@ -74,6 +86,8 @@ public class TestMultipleNodes {
         }
 
         System.out.println("stop local.node 1");
+
+        // verify cache
         {
             IgniteCache<String, Integer> cache = ignite.cache("myCache");
             Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
