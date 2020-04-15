@@ -1,4 +1,4 @@
-package node;
+package local.node;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;

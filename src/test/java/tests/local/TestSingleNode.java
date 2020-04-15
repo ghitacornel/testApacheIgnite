@@ -1,6 +1,6 @@
-package tests;
+package tests.local;
 
-import node.ServerNode;
+import local.node.ServerNode;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.configuration.IgniteConfiguration;

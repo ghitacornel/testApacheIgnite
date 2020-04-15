@@ -1,4 +1,4 @@
-package tests.docker.multiple;
+package tests.remote.multiple;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
@@ -18,11 +18,13 @@ public class TestMultipleNodes {
     @BeforeClass
     static public void setUpAll() {
         List<String> addressList = new ArrayList<>();
-        addressList.add("127.0.0.1");
+        addressList.add("127.0.0.1:47500");
+        addressList.add("127.0.0.1:47501");
 
 
         TcpDiscoveryVmIpFinder ipFinder = new TcpDiscoveryVmIpFinder();
         ipFinder.setAddresses(addressList);
+        ipFinder.setShared(true);
 
         TcpDiscoverySpi tcpDiscoverySpi = new TcpDiscoverySpi();
         tcpDiscoverySpi.setIpFinder(ipFinder);
@@ -33,6 +35,7 @@ public class TestMultipleNodes {
         igniteConfiguration.setClientMode(true);
         igniteConfiguration.setDiscoverySpi(tcpDiscoverySpi);
 
+        Ignition.setClientMode(true);
         ignite = Ignition.start(igniteConfiguration);
     }
 
@@ -49,27 +52,12 @@ public class TestMultipleNodes {
         cache.put("three", 3);
     }
 
-    @Ignore("does not work on docker with multiple containers")
     @Test
     public void testMultipleReads() {
 
         // place breakpoints
 
-        // verify with 2 containers
-        System.out.println("verify with 2 containers");
-        {
-           IgniteCache<String, Integer> cache = ignite.cache("myCache");
-            Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
-            Assert.assertEquals(Integer.valueOf(2), cache.get("two"));
-            Assert.assertEquals(Integer.valueOf(3), cache.get("three"));
-        }
-
-        // start killing containers
-
-        // kill 1 container
-
-        // verify
-        System.out.println("verify with container 2");
+        System.out.println("verify with local.node 1 only");
         {
             IgniteCache<String, Integer> cache = ignite.cache("myCache");
             Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
@@ -77,17 +65,23 @@ public class TestMultipleNodes {
             Assert.assertEquals(Integer.valueOf(3), cache.get("three"));
         }
 
-        // start 3 container
-        // kill 2 container
-
-        // verify
-        System.out.println("verify with container 3 and test replication");
+        System.out.println("start local.node 2");
         {
             IgniteCache<String, Integer> cache = ignite.cache("myCache");
             Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
             Assert.assertEquals(Integer.valueOf(2), cache.get("two"));
             Assert.assertEquals(Integer.valueOf(3), cache.get("three"));
         }
+
+        System.out.println("stop local.node 1");
+        {
+            IgniteCache<String, Integer> cache = ignite.cache("myCache");
+            Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
+            Assert.assertEquals(Integer.valueOf(2), cache.get("two"));
+            Assert.assertEquals(Integer.valueOf(3), cache.get("three"));
+        }
+
+        System.out.println("done");
 
     }
 

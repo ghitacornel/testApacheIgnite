@@ -1,6 +1,6 @@
-package tests;
+package tests.local;
 
-import node.ServerNode;
+import local.node.ServerNode;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;
@@ -67,7 +67,7 @@ public class TestMultipleNodes {
 
 
         ServerNode server3;
-        {// create a third node
+        {// create a third local.node
             IgniteConfiguration igniteConfiguration3 = new IgniteConfiguration();
             igniteConfiguration3.setIgniteInstanceName("3");
             server3 = new ServerNode(igniteConfiguration3);
