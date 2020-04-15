@@ -41,7 +41,7 @@ public class TestMultipleNodes {
     }
 
     @Test
-    public void testSingleRead() {
+    public void testMultipleRead() {
 
         {// add to cache
             CacheConfiguration<String, Integer> cacheConfiguration = new CacheConfiguration<>("myCache");
