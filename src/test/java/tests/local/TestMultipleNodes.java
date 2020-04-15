@@ -16,6 +16,7 @@ import org.junit.Test;
 public class TestMultipleNodes {
 
     private static final String CACHE_NAME = "myCache";
+
     private static ServerNode node1;
     private static ServerNode node2;
     private static IgniteClient client;
@@ -66,13 +67,7 @@ public class TestMultipleNodes {
 
         }
 
-        // verify cache
-        {
-            cache = client.getOrCreateCache(CACHE_NAME);
-            Assert.assertEquals(1, cache.get("one"));
-            Assert.assertEquals(2, cache.get("two"));
-            Assert.assertEquals(3, cache.get("three"));
-        }
+        verifyCache();
 
         // create node 2
         {
@@ -82,27 +77,22 @@ public class TestMultipleNodes {
             node2.startNode();
         }
 
-        // verify cache
-        {
-            cache = client.getOrCreateCache(CACHE_NAME);
-            Assert.assertEquals(1, cache.get("one"));
-            Assert.assertEquals(2, cache.get("two"));
-            Assert.assertEquals(3, cache.get("three"));
-        }
+        verifyCache();
 
         // close node 1
         {
             node1.stopNode();
         }
 
-        // verify cache
-        {
-            cache = client.getOrCreateCache(CACHE_NAME);
-            Assert.assertEquals(1, cache.get("one"));
-            Assert.assertEquals(2, cache.get("two"));
-            Assert.assertEquals(3, cache.get("three"));
-        }
+        verifyCache();
 
+    }
+
+    private void verifyCache() {
+        ClientCache<Object, Object> cache = client.getOrCreateCache(CACHE_NAME);
+        Assert.assertEquals(1, cache.get("one"));
+        Assert.assertEquals(2, cache.get("two"));
+        Assert.assertEquals(3, cache.get("three"));
     }
 
 }
