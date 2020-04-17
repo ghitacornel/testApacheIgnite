@@ -1,49 +1,27 @@
 package tests.remote.multiple;
 
-import org.apache.ignite.Ignite;
-import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
-import org.apache.ignite.configuration.IgniteConfiguration;
-import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
-import org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder;
-import org.junit.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.ignite.client.ClientCache;
+import org.apache.ignite.client.IgniteClient;
+import org.apache.ignite.configuration.ClientConfiguration;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class TestMultipleNodes {
 
     private static final String CACHE_NAME = "myCache";
 
-    static Ignite ignite;
+    static IgniteClient ignite;
 
     @BeforeClass
     static public void setUpAll() {
-        List<String> addressList = new ArrayList<>();
-        addressList.add("127.0.0.1:47500");
-        addressList.add("127.0.0.1:47501");
 
+        ClientConfiguration clientConfiguration = new ClientConfiguration();
+        clientConfiguration.setAddresses("127.0.0.1:47500", "127.0.0.1:47501", "127.0.0.1:4710", "127.0.0.1:47101");
+        clientConfiguration.setTimeout(2000);
 
-        TcpDiscoveryVmIpFinder ipFinder = new TcpDiscoveryVmIpFinder();
-        ipFinder.setAddresses(addressList);
-        ipFinder.setShared(true);
-
-        TcpDiscoverySpi tcpDiscoverySpi = new TcpDiscoverySpi();
-        tcpDiscoverySpi.setIpFinder(ipFinder);
-        tcpDiscoverySpi.setClientReconnectDisabled(false);
-        tcpDiscoverySpi.setReconnectDelay(100);
-
-        IgniteConfiguration igniteConfiguration = new IgniteConfiguration();
-        igniteConfiguration.setClientMode(true);
-        igniteConfiguration.setDiscoverySpi(tcpDiscoverySpi);
-
-        Ignition.setClientMode(true);
-        ignite = Ignition.start(igniteConfiguration);
-    }
-
-    @AfterClass
-    static public void tearDownAll() {
-        Ignition.stopAll(false);
+        ignite = Ignition.startClient(clientConfiguration);
     }
 
     @Test
@@ -55,7 +33,7 @@ public class TestMultipleNodes {
 
         // write cache
         {
-            IgniteCache<String, Integer> cache = ignite.getOrCreateCache(CACHE_NAME);
+            ClientCache<Object, Object> cache = ignite.getOrCreateCache(CACHE_NAME);
             cache.put("one", 1);
             cache.put("two", 2);
             cache.put("three", 3);
@@ -76,10 +54,10 @@ public class TestMultipleNodes {
     }
 
     private void verifyCache() {
-        IgniteCache<String, Integer> cache = ignite.cache(CACHE_NAME);
-        Assert.assertEquals(Integer.valueOf(1), cache.get("one"));
-        Assert.assertEquals(Integer.valueOf(2), cache.get("two"));
-        Assert.assertEquals(Integer.valueOf(3), cache.get("three"));
+        ClientCache<Object, Object> cache = ignite.cache(CACHE_NAME);
+        Assert.assertEquals(1, cache.get("one"));
+        Assert.assertEquals(2, cache.get("two"));
+        Assert.assertEquals(3, cache.get("three"));
     }
 
 }
