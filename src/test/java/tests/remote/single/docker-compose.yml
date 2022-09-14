@@ -1,7 +1,5 @@
-version: '3.6'
-
 services:
-      
+
   singleNode:
     image: apacheignite/ignite
     container_name: singleNode
@@ -12,7 +10,7 @@ services:
       - 47100:47100
       - 47500:47500
       - 49112:49112
-      
+
 networks:
   ai_network:
     driver: bridge
