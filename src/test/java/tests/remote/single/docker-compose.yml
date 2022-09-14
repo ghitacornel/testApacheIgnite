@@ -2,7 +2,7 @@ services:
 
   singleNode:
     image: apacheignite/ignite
-    container_name: singleNode
+    container_name: apacheIgniteSingleNode
     networks:
       - ai_network
     ports:
