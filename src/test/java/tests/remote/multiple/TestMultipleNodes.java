@@ -1,31 +1,15 @@
 package tests.remote.multiple;
 
-import org.apache.ignite.Ignition;
 import org.apache.ignite.client.ClientCache;
-import org.apache.ignite.client.IgniteClient;
-import org.apache.ignite.configuration.ClientConfiguration;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import tests.remote.setup.RemoteTestSetup;
 
-public class TestMultipleNodes {
+public class TestMultipleNodes extends RemoteTestSetup {
 
-    private static final String CACHE_NAME = "myCache";
-
-    static ClientConfiguration clientConfiguration;
-    IgniteClient ignite;
-
-    @BeforeClass
-    static public void setUpAll() {
-        clientConfiguration = new ClientConfiguration();
-        clientConfiguration.setAddresses("127.0.0.1:10800", "127.0.0.1:10801", "127.0.0.1:10802");
-        clientConfiguration.setTimeout(2000);
-    }
 
     @Test
     public void testMultipleReads() {
-
-        ignite = Ignition.startClient(clientConfiguration);
 
         // place breakpoints
 
@@ -50,7 +34,6 @@ public class TestMultipleNodes {
         verifyCache();
 
         System.out.println("done");
-        ignite.close();
 
     }
 

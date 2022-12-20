@@ -1,31 +1,16 @@
 package tests.remote.single;
 
-import org.apache.ignite.Ignition;
 import org.apache.ignite.client.ClientCache;
-import org.apache.ignite.client.IgniteClient;
-import org.apache.ignite.configuration.ClientConfiguration;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import tests.remote.setup.RemoteTestSetup;
 
-public class TestSingleNodeThin {
-
-    static IgniteClient client;
-
-    @BeforeClass
-    static public void setUpAll() {
-
-        ClientConfiguration configuration = new ClientConfiguration();
-        configuration.setAddresses("127.0.0.1:47500");
-        configuration.setTimeout(2000);
-
-        client = Ignition.startClient(configuration);
-    }
+public class TestSingleNodeThin extends RemoteTestSetup {
 
     @Test
     public void testSingleRead() {
 
-        ClientCache<Object, Object> cache = client.getOrCreateCache("myCache");
+        ClientCache<Object, Object> cache = ignite.getOrCreateCache("myCache");
 
         cache.put("one", 1);
         cache.put("two", 2);
