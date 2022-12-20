@@ -9,6 +9,7 @@ services:
       - 47100:47100
       - 47500:47500
       - 10800:10800
+      - 11211:11211
 
   node2:
     image: apacheignite/ignite
@@ -19,6 +20,7 @@ services:
       - 47101:47100
       - 47501:47500
       - 10801:10800
+      - 11212:11211
 
   node3:
     image: apacheignite/ignite
@@ -29,6 +31,7 @@ services:
       - 47102:47100
       - 47502:47500
       - 10802:10800
+      - 11213:11211
 
 networks:
   ai_network:

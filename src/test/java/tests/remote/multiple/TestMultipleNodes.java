@@ -12,20 +12,20 @@ public class TestMultipleNodes {
 
     private static final String CACHE_NAME = "myCache";
 
-    static IgniteClient ignite;
+    static ClientConfiguration clientConfiguration;
+    IgniteClient ignite;
 
     @BeforeClass
     static public void setUpAll() {
-
-        ClientConfiguration clientConfiguration = new ClientConfiguration();
+        clientConfiguration = new ClientConfiguration();
         clientConfiguration.setAddresses("127.0.0.1:10800", "127.0.0.1:10801", "127.0.0.1:10802");
         clientConfiguration.setTimeout(2000);
-
-        ignite = Ignition.startClient(clientConfiguration);
     }
 
     @Test
     public void testMultipleReads() {
+
+        ignite = Ignition.startClient(clientConfiguration);
 
         // place breakpoints
 
@@ -50,6 +50,7 @@ public class TestMultipleNodes {
         verifyCache();
 
         System.out.println("done");
+        ignite.close();
 
     }
 
