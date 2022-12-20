@@ -15,7 +15,7 @@ services:
     networks:
       - ai_network
     ports:
-      - 47100:47100
+      - 47101:47100
       - 47501:47500
 
   node3:
