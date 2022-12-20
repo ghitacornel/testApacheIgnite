@@ -29,9 +29,10 @@ public class TestSingleNode {
         }
 
         {
-            ClientConfiguration clientConfiguration = new ClientConfiguration();
-            clientConfiguration.setAddresses("127.0.0.1");
-            client = Ignition.startClient(clientConfiguration);
+            ClientConfiguration configuration = new ClientConfiguration();
+            configuration.setAddresses("127.0.0.1");
+            configuration.setTimeout(2000);
+            client = Ignition.startClient(configuration);
         }
 
     }

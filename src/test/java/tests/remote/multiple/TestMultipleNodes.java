@@ -6,7 +6,6 @@ import org.apache.ignite.client.IgniteClient;
 import org.apache.ignite.configuration.ClientConfiguration;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestMultipleNodes {
@@ -25,7 +24,6 @@ public class TestMultipleNodes {
         ignite = Ignition.startClient(clientConfiguration);
     }
 
-    @Ignore("doesn't work")
     @Test
     public void testMultipleReads() {
 
