@@ -19,7 +19,7 @@ public class TestMultipleNodes {
     static public void setUpAll() {
 
         ClientConfiguration clientConfiguration = new ClientConfiguration();
-        clientConfiguration.setAddresses("127.0.0.1:47500", "127.0.0.1:47501", "127.0.0.1:4710", "127.0.0.1:47101");
+        clientConfiguration.setAddresses("127.0.0.1:47500", "127.0.0.1:47501", "127.0.0.1:47502");
         clientConfiguration.setTimeout(2000);
 
         ignite = Ignition.startClient(clientConfiguration);
