@@ -8,6 +8,7 @@ services:
     ports:
       - 47100:47100
       - 47500:47500
+      - 10800:10800
 
   node2:
     image: apacheignite/ignite
@@ -17,6 +18,7 @@ services:
     ports:
       - 47101:47100
       - 47501:47500
+      - 10801:10800
 
   node3:
     image: apacheignite/ignite
@@ -26,6 +28,7 @@ services:
     ports:
       - 47102:47100
       - 47502:47500
+      - 10802:10800
 
 networks:
   ai_network:
